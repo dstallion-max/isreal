@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professional Registration Page</title>
+    <!-- Importing Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    
+    <!-- Inline CSS -->
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-image: url(../phptutorial/pic3.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            top: 100px;
+            height: 100%;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 300px;
+            margin: 30px auto;
+            padding: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group input::placeholder {
+            color: white;
+        }
+        
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+            color: white;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px 0;
+            font-size: 14px;
+            padding-top: 30px;
+            padding-left: 10px;
+            border: none; /* Remove all borders */
+            border-bottom: 1px solid #ccc; /* Keep only the bottom border */
+            box-sizing: border-box;
+            background-color: transparent;
+            color: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border: none; /* No border on focus */
+            border-bottom: 1px solid #007bff; /* Change the bottom border color on focus */
+            outline: none; /* Remove the outline */
+            color: white;
+        }
+
+        /* Placeholder color */
+        input::placeholder {
+            color: white;
+            opacity: 1; /* Ensures the color appears as intended */
+        }
+        
+        button {
+            width: 100%;
+            padding: 8px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: black;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: orangered;
+            color: white;
+        }
+        
+        .form-group.checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .form-group.checkbox label {
+            margin: 0 0 0 5px;
+            font-size: 12px;
+            display: inline;
+            color: #666;
+        }
+        
+        .footer-link {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+        
+        .footer-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Form Title -->
+        <h1>Registration Form</h1>
+
+        <!-- Registration Form -->
+        <form action="" method="post" id="form">
+            <div class="error-text" style="display: none; color: white; position: relative; left: 20px; top: 15px; font-size: 15px;">Error</div>
+            <!-- Full Name -->
+            <div class="form-group">
+                <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-group checkbox" style="padding-top: 20px;">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms" style="color: white;"> I agree to the <a href="#" style="color: whitesmoke;">Terms and Conditions</a></label>
+            </div>
+
+            <!-- Register Button -->
+            <div class="submit">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const Form = document.getElementById("form"),
+        Button = Form.querySelector(".submit button"),  // Corrected selector
+        Errormsg = Form.querySelector(".error-text");
+
+        Form.onsubmit = (e) => {
+            e.preventDefault();
+        }
+
+        Button.onclick = () => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', 'form.php', true);
+            xhr.onload = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        let data = xhr.response;
+                        if (data === "success") {
+                            window.location.href = "rt.html";  // Use a relative URL
+                        } else {
+                            Errormsg.style.display = "block";  // Corrected to display error
+                            Errormsg.textContent = data;
+
+                            setTimeout(() => {
+                                Errormsg.style.display = "none";
+                            }, 3000);
+                        }
+                    }
+                }
+            }
+
+            let formData = new FormData(Form);
+            xhr.send(formData);
+        }
+    </script>
+
+</body>
+</html>
